@@ -1,0 +1,41 @@
+$card_size: 200px;
+
+.card
+{
+    cursor: pointer;
+    position: relative;
+    margin: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: $card_size;
+    height: $card_size;
+    overflow: hidden;
+	transition: 1s;
+    transform-style: preserve-3d;
+    padding: 0 !important;
+}
+
+.CodeMirror, .CodeMirror-scroll {
+    min-height: $card_size;
+    height: $card_size;
+}
+
+.CodeMirror-scroll
+{
+    display: none;
+    overflow: hidden;
+}
+
+.editor-preview-active
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// .CodeMirror
+// {
+//     width: $card_size;
+//     height: $card_size;
+//     min-height: inherit;
+// }

@@ -6,6 +6,24 @@ body {
 	overflow-y: scroll;
 }
 
+.fancy {
+	animation: fade-in 0.1s forwards;
+}
+
+@keyframes fade-in {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+
+.exit {
+	animation: fade-out 0.1s forwards;
+}
+
+@keyframes fade-out {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
 /* Pages nav */
 
 .pages-nav {

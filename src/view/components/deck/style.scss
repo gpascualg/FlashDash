@@ -13,6 +13,8 @@ $deck_size: 200px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+	transition: 1s;
+	transform-style: preserve-3d;
 
     span  
     {

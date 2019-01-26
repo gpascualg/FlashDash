@@ -1,6 +1,7 @@
 import './styles.scss';
-import classNames from 'classnames';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import classNames from 'classnames';
+import { onEndTransition } from '../helper';
 
 /**
  * A component that wraps another component with some common
@@ -9,35 +10,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 export default function() {
     var isMenuOpen = false;
     var isTransitionInCourse = false;
-
-    function onEndTransition( el, callback ) {
-        var i,
-            transitions = {
-                'transition': 'transitionend',
-                'OTransition': 'otransitionend',  // oTransitionEnd in very old Opera
-                'MozTransition': 'transitionend',
-                'WebkitTransition': 'webkitTransitionEnd',
-            };
-    
-        var transitionEnd = '';
-        for (i in transitions) {
-            if (transitions.hasOwnProperty(i) && el.style[i] !== undefined) {
-                transitionEnd = transitions[i];
-                break;
-            }
-        }
-    
-        if (transitionEnd === '') {
-            callback();
-            return;
-        }
-    
-        var transitionEndWrap = function(e) {
-            callback(); 
-            e.target.removeEventListener(e.type, transitionEndWrap);
-        };
-        el.addEventListener(transitionEnd, transitionEndWrap);
-    }
     
     function handleMenu()
     {
@@ -86,29 +58,31 @@ export default function() {
     }
 
     return {
-        view: (vnode) => [
-            <nav className={ classNames({'pages-nav': true, 'pages-nav--open': isMenuOpen}) } key='nav'>
-                <div className="pages-nav__item"><a className="link link--page" href="/index" onclick={ (e) => openPage(e) }>Home</a></div>
-                <div className="pages-nav__item"><a className="link link--page" href="/new" onclick={ (e) => openPage(e) }>New deck</a></div>
-                <div className="pages-nav__item"><a className="link link--page" href="/settings" onclick={ (e) => openPage(e) }>Settings</a></div>
-            </nav>,
+        view(vnode) {
+            return [
+                <nav className={ classNames({'pages-nav': true, 'pages-nav--open': isMenuOpen}) } key='nav'>
+                    <div className="pages-nav__item"><a className="link link--page" href="/index" onclick={ (e) => openPage(e) }>Home</a></div>
+                    <div className="pages-nav__item"><a className="link link--page" href="/new" onclick={ (e) => openPage(e) }>New deck</a></div>
+                    <div className="pages-nav__item"><a className="link link--page" href="/settings" onclick={ (e) => openPage(e) }>Settings</a></div>
+                </nav>,
 
-            <div className={ classNames({'pages-stack': true, 'pages-stack--open': isTransitionInCourse}) } key='pages-stack'>
-                <div
-                    className={ classNames({'page': true, 'page--selectable': isMenuOpen}) }
-                    onclick={ (e) => closeMenu(e) }
-                    id="page-home" 
-                    style='translate3d(0, 0, 0)'>
+                <div className={ classNames({'pages-stack': true, 'pages-stack--open': isTransitionInCourse}) } key='pages-stack'>
+                    <div
+                        className={ classNames({'page': true, 'page--selectable': isMenuOpen}) }
+                        onclick={ (e) => closeMenu(e) }
+                        id="page-home" 
+                        style='translate3d(0, 0, 0)'>
 
-                    <div className='container'>
-                        { vnode.children }
+                        <div className='container'>
+                            { vnode.children }
+                        </div>
                     </div>
-                </div>
-            </div>,
-            
-            <button className={ classNames({'menu-button': true, 'menu-button--open': isMenuOpen }) } key='menu' onclick={ () => handleMenu() }>
-                <span>Menu</span>
-            </button>,
-        ],
+                </div>,
+                
+                <button className={ classNames({'menu-button': true, 'menu-button--open': isMenuOpen }) } key='menu' onclick={ () => handleMenu() }>
+                    <span>Menu</span>
+                </button>,
+            ];
+        },
     };
 }

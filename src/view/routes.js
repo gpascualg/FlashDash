@@ -1,9 +1,12 @@
 import PageLayout from './components/page-layout';
 
-// Individual pages
-import IndexPage from './pages/landing-page';
+// Secondary components
 import Splash from './components/splash-loader/index';
 import MaintenancePage from './components/maintenance-layout/index';
+
+// Main pages
+import IndexPage from './pages/landing-page';
+import CardsPage from './pages/cards-page';
 
 
 const $root = document.body.querySelector('#root');
@@ -123,7 +126,7 @@ const Routes = {
             });
         });
     }),
-    '/deck/:id': lazyLoad(Splash, (resolve, db, params) => {
+    '/deck/:id': lazyLoad(CardsPage, (resolve, db, params) => {
         let id = parseInt(params.id);
 
         fetch(db, 'cards', 'deckId', IDBKeyRange.only(id)).then((data) => {
