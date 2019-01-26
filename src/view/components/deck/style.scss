@@ -1,0 +1,27 @@
+$deck_size: 200px;
+
+.deck
+{
+    cursor: pointer;
+    position: relative;
+    margin: 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: $deck_size;
+    height: $deck_size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    span  
+    {
+        position: absolute;
+        z-index: 2;
+    }
+
+    img
+    {
+        position: absolute;
+    }
+}

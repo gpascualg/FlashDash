@@ -1,18 +1,16 @@
-import SampleComponent from '../components/sample-component';
+import Deck from '../components/deck/index';
 
 export default function() {
-    return {        
+    var decks = [];
+
+    return {
+        oninit(vnode) {
+            decks = vnode.attrs.decks;
+        },
         view() {
-            /* return m('div', [
-                m('h2', 'Congratulations, you made it!'),
-                m('p', 'You\'ve spun up your very first Mithril app :-)'),
-                m(SampleComponent),
-            ]); */
             return (
-                <div>
-                    <h2>Congratulations, you made it!</h2>
-                    <p>You've spun up your very first Mithril app :-)</p>
-                    <SampleComponent />
+                <div class="d-flex flex-wrap justify-content-center">
+                    { decks.map((deck) => <Deck key={ deck.id } id={ deck.id } name={ deck.name } image={ deck.image } />) }
                 </div>
             );
         },
