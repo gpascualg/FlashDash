@@ -1,6 +1,5 @@
 import './style.scss';
-import { onEndTransition } from '../helper';
-import classNames from 'classnames';
+import { onEndTransition, route } from '../helper';
 
 
 export default function() {
@@ -9,20 +8,9 @@ export default function() {
     let name = null;
     let image = null;
 
-    function goto(e) {
-        // Make it spin
-        let el = e.target.parentElement;
-        // el.style.transform = 'rotateY(180deg)';
-
-        // Make it fade
-        let container = document.getElementsByClassName('container')[0];
-        container.className = classNames('container', 'exit');
-
-        setTimeout(() => {
-            container.className = classNames('container', 'fancy');
-            m.route.set('/deck/' + el.id);
-        }, 100);
-    }    
+    function getpage(e) {
+        route('/deck/' + e.target.parentElement.id);
+    } 
 
     return {
         oninit: function(vnode) {
@@ -32,7 +20,7 @@ export default function() {
         },
         view: function() {
             return (
-                <div className='p-2 deck' id={ id } onclick={ (e) => goto(e) }>
+                <div className='p-2 deck' id={ id } onclick={ (e) => getpage(e) }>
                     <span>{ name }</span>
                     <img src={ image }></img>
                 </div>

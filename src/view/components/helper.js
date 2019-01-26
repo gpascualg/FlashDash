@@ -1,3 +1,6 @@
+import classNames from 'classnames';
+
+
 function onEndTransition( el, callback ) {
     var i,
         transitions = {
@@ -27,4 +30,15 @@ function onEndTransition( el, callback ) {
     el.addEventListener(transitionEnd, transitionEndWrap);
 }
 
-export { onEndTransition };
+function route(page) {
+    // Make it fade
+    let container = document.getElementsByClassName('container')[0];
+    container.className = classNames('container', 'exit');
+
+    setTimeout(() => {
+        container.className = classNames('container', 'fancy');
+        m.route.set(page);
+    }, 100);
+} 
+
+export { onEndTransition, route };

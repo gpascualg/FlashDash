@@ -1,6 +1,8 @@
 import './style.scss';
-import EasyMDE from 'easymde';
 import 'easymde/dist/easymde.min.css';
+import EasyMDE from 'easymde';
+import classNames from 'classnames';
+import { onEndTransition } from '../helper';
 
 
 function mdeMe(e)
@@ -16,25 +18,62 @@ function mdeMe(e)
 }
 
 export default function() {
-
+    let displayingBoth = false;
     let id = null;
     let front = null;
     let back = null;
+    let showingFront = true;
+
+    function reveal(e, vnode)
+    {
+        if (displayingBoth)
+        {
+            e.redraw = false;
+            return;
+        }
+
+        let container = vnode.dom.children[0];
+        container.className = classNames({
+            'flip-container': true,
+            'flip': showingFront
+        });
+
+        showingFront = !showingFront;
+    }
+
 
     return {
         oninit(vnode) {
             id = vnode.attrs.id;
             front = vnode.attrs.front;
             back = vnode.attrs.back;
+            displayingBoth = vnode.attrs.display == 'both';
         },
-        view() {
+        view(vnode) {
+            // Dynamic prop
+            displayingBoth = vnode.attrs.display == 'both';
+
+            const flexrow = 'd-flex flex-wrap justify-content-center';
+
             return (
-                <div className="d-flex flex-wrap justify-content-center">
-                    <div className='p-2 card' id={ id }>
-                        <textarea oncreate={ mdeMe }>{ front }</textarea>
-                    </div>
-                    <div className='p-2 card' id={ id }>
-                        <textarea oncreate={ mdeMe }>{ back }</textarea>
+                <div className={ flexrow } id={ id }>
+                    <div class={ classNames({'flip-container': !displayingBoth, 'both': displayingBoth,}) }>
+                        <div class={ 'flipper ' + flexrow }>
+                            <div className={classNames({
+                                'p-2': true,
+                                'card': true,
+                                'front': true,
+                            })} onclick={ (e) => reveal(e, vnode) }>
+                                <textarea oncreate={ mdeMe }>{ front }</textarea>
+                            </div>
+                            <div className={classNames({
+                                'p-2': true,
+                                'card': true,
+                                'back': true,
+                            })} onclick={ (e) => reveal(e, vnode) }>
+                                <textarea oncreate={ mdeMe }>{ back }</textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             );

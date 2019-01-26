@@ -1,7 +1,7 @@
 import './styles.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import classNames from 'classnames';
-import { onEndTransition } from '../helper';
+import { onEndTransition, route } from '../helper';
 
 /**
  * A component that wraps another component with some common
@@ -40,7 +40,7 @@ export default function() {
         let targetPage = e.target.getAttribute('href');
         if (targetPage != m.route.get())
         {
-            m.route.set(targetPage);
+            route(targetPage);
         }
 
         e.preventDefault();
